@@ -26,16 +26,6 @@
             height: 600px;
         }
 
-        /* 添加音乐控制按钮 */
-#musicControl {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ff4081;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-}
 
         /* 新增爱心特效样式 */
         .heart {
@@ -71,9 +61,7 @@
 <body>
     <img id="loveHeart" src="love.gif" alt="爱心">
     <div class="text">小马❤️宝宝</div>
-<audio id="bgMusic" loop hidden>
-  <source src="https://cdn.jsdelivr.net/gh/as233618690/Gamer@main/music.mp3" type="audio/mpeg">
-</audio>
+
 
     <!-- 修改光标路径 -->
 <style>
@@ -89,6 +77,29 @@ body {
         <h3>天</h3>
     </div>
 
+<!-- 在右上角添加 -->
+<div class="weather">
+  <div id="weatherInfo">加载天气中...</div>
+</div>
+
+<script>
+// 需要申请免费API key：https://openweathermap.org/api
+const API_KEY = 'f44e02c1a72919c4554dd7447f443a6c' 
+
+navigator.geolocation.getCurrentPosition(position => {
+  const {latitude, longitude} = position.coords
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=zh_cn`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('weatherInfo').innerHTML = `
+        🌤 ${data.weather[0].description}<br>
+        🌡 ${data.main.temp}℃<br>
+        💧 ${data.main.humidity}%
+      `
+    })
+})
+</style>
+    
     <!-- 新增情话按钮 -->
     <button id="loveBtn" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background: #ff4081; color: white; border: none; border-radius: 5px; cursor: pointer;">
         点击获取情话
@@ -143,9 +154,7 @@ body {
             const randomIndex = Math.floor(Math.random() * loveMessages.length);
             alert(loveMessages[randomIndex]);
         });
-        window.addEventListener('click', () => {
-  document.getElementById('bgMusic').play()
-})
+        
     </script>
 </body>
 </html>

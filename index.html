@@ -30,6 +30,23 @@
             height: 600px;
         }
 
+        /* 设置 .weather 容器的样式，虽然在这个例子中可能不是必需的，但可以作为容器使用 */
+.weather {
+  position: relative; /* 这使得 #weatherInfo 可以相对于 .weather 定位 */
+  width: 100%;
+  height: 100%; /* 或者根据需要设置高度 */
+}
+ 
+/* 设置 #weatherInfo 的样式 */
+#weatherInfo {
+  position: absolute; /* 使用绝对定位 */
+  top: 0; /* 距离顶部 0px */
+  left: 0; /* 距离左侧 0px */
+  margin: 0; /* 移除外边距 */
+  padding: 10px; /* 可选：添加一些内边距以便文本不紧贴边缘 */
+  background-color: #fff; /* 可选：设置背景颜色，确保文本可读 */
+  color: #000; /* 可选：设置文本颜色 */
+}
 
         /* 新增爱心特效样式 */
         .heart {

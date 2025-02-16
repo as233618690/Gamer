@@ -11,11 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /*background: pink;*/
-            background: linear-gradient(
-                to bottom right,
-                var(--primary-color),
-                var(--secondary-color)
+            background: pink
             background-size: cover;
             cursor: url('images/heart.ico'), auto;
         }
@@ -24,7 +20,13 @@
   --primary-color: #ff4081;
   --secondary-color: #89f7fe;
 }
-
+body {
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
 
 
 @media (max-width: 768px) {
@@ -33,7 +35,7 @@
     padding: 10px;
   }
   
-.weather-card {
+  .weather-card {
     flex-direction: column;
   }
 }

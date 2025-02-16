@@ -26,6 +26,17 @@
             height: 600px;
         }
 
+        /* 添加音乐控制按钮 */
+#musicControl {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff4081;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
         /* 新增爱心特效样式 */
         .heart {
             position: absolute;
@@ -60,6 +71,9 @@
 <body>
     <img id="loveHeart" src="love.gif" alt="爱心">
     <div class="text">小马❤️宝宝</div>
+<audio id="bgMusic" loop hidden>
+  <source src="https://cdn.jsdelivr.net/gh/as233618690/Gamer@main/music.mp3" type="audio/mpeg">
+</audio>
 
     <!-- 修改光标路径 -->
 <style>
@@ -129,6 +143,9 @@ body {
             const randomIndex = Math.floor(Math.random() * loveMessages.length);
             alert(loveMessages[randomIndex]);
         });
+        window.addEventListener('click', () => {
+  document.getElementById('bgMusic').play()
+})
     </script>
 </body>
 </html>

@@ -58,48 +58,6 @@
   gap: 10px;
 }
 
-/* 扫雷游戏样式 */
-.minesweeper {
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
-  background: rgba(255,255,255,0.9);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-.grid {
-  display: grid;
-  gap: 2px;
-}
-
-.cell {
-  width: 30px;
-  height: 30px;
-  background: #ffb6c1;
-  border: 1px solid #ff69b4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
-}
-
-.cell.revealed {
-  background: #ffe4e1;
-}
-
-.cell.mine {
-  background: #ff1493 url('data:image/svg+xml,<svg viewBox="0 0 24 24" fill="%23ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>');
-}
-
-.flag {
-  background: #ff4081 url('data:image/svg+xml,<svg viewBox="0 0 24 24" fill="%23ffffff"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>');
-}
-
         /* 新增计时器样式 */
         .counter {
             position: fixed;
@@ -144,7 +102,7 @@ body {
     
 <!-- 音乐播放器 -->   
 <div class="music-player">
-  <h3>💖 我们的歌单</h3>
+  <h3>💖 钢琴曲</h3>
   <div class="music-controls">
     <button onclick="playPrev()">⏮</button>
     <button onclick="togglePlay()" id="playBtn">▶️</button>
@@ -153,13 +111,7 @@ body {
   <audio id="audioPlayer" src=""></audio>
 </div>
 
-<!-- 扫雷游戏 -->
-<div class="minesweeper">
-  <h3>💣 爱心扫雷</h3>
-  <div class="grid" id="grid"></div>
-  <p>剩余雷数: <span id="minesLeft">10</span></p>
-  <button onclick="initGame()">重新开始</button>
-</div>
+
     
     <!-- 新增情话按钮 -->
     <button id="loveBtn" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background: #ff4081; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -271,128 +223,7 @@ function playPrev() {
 // 初始化第一首歌
 audio.src = playlist[currentTrack]
 
-        // ========== 扫雷游戏 ==========
-const GRID_SIZE = 10
-const MINE_COUNT = 10
-let grid = []
-let gameOver = false
-
-function initGame() {
-  gameOver = false
-  // 初始化网格
-  grid = Array(GRID_SIZE).fill().map(() => 
-    Array(GRID_SIZE).fill({ isMine: false, revealed: false, flagged: false })
-  )
-  
-  // 随机布置地雷
-  let minesPlaced = 0
-  while (minesPlaced < MINE_COUNT) {
-    const x = Math.floor(Math.random() * GRID_SIZE)
-    const y = Math.floor(Math.random() * GRID_SIZE)
-    if (!grid[x][y].isMine) {
-      grid[x][y].isMine = true
-      minesPlaced++
-    }
-  }
-  
-  renderGrid()
-}
-
-function reveal(x, y) {
-  if (gameOver || grid[x][y].revealed || grid[x][y].flagged) return
-  
-  if (grid[x][y].isMine) {
-    gameOver = true
-    alert('踩到爱心雷啦！❤️')
-    return
-  }
-  
-  grid[x][y].revealed = true
-  const minesAround = countMines(x, y)
-  
-  if (minesAround === 0) {
-    // 自动展开相邻区域
-    for (let dx = -1; dx <= 1; dx++) {
-      for (let dy = -1; dy <= 1; dy++) {
-        const nx = x + dx
-        const ny = y + dy
-        if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
-          if (!grid[nx][ny].revealed) reveal(nx, ny)
-        }
-      }
-    }
-  }
-  
-  checkWin()
-  renderGrid()
-}
-
-function flag(x, y, event) {
-  event.preventDefault()
-  if (!grid[x][y].revealed) {
-    grid[x][y].flagged = !grid[x][y].flagged
-    updateMineCount()
-    renderGrid()
-  }
-}
-
-function countMines(x, y) {
-  let count = 0
-  for (let dx = -1; dx <= 1; dx++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      const nx = x + dx
-      const ny = y + dy
-      if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
-        if (grid[nx][ny].isMine) count++
-      }
-    }
-  }
-  return count
-}
-
-function checkWin() {
-  const win = grid.every(row => 
-    row.every(cell => 
-      cell.revealed || (cell.isMine && cell.flagged)
-    )
-  )
-  if (win) {
-    gameOver = true
-    alert('恭喜你成功避开所有爱心雷！🎉')
-  }
-}
-
-function updateMineCount() {
-  const flagged = grid.flat().filter(cell => cell.flagged).length
-  document.getElementById('minesLeft').textContent = MINE_COUNT - flagged
-}
-
-function renderGrid() {
-  const gridEl = document.getElementById('grid')
-  gridEl.style.gridTemplateColumns = `repeat(${GRID_SIZE}, 30px)`
-  gridEl.innerHTML = ''
-  
-  grid.forEach((row, x) => {
-    row.forEach((cell, y) => {
-      const div = document.createElement('div')
-      div.className = 'cell' + (cell.revealed ? ' revealed' : '')
-      if (cell.revealed && cell.isMine) div.className += ' mine'
-      if (cell.flagged) div.className += ' flag'
-      
-      if (cell.revealed && !cell.isMine) {
-        const count = countMines(x, y)
-        div.textContent = count || ''
-      }
-      
-      div.addEventListener('click', () => reveal(x, y))
-      div.addEventListener('contextmenu', (e) => flag(x, y, e))
-      gridEl.appendChild(div)
-    })
-  })
-}
-
-// 初始化游戏
-initGame()
+        
 
         
     </script>

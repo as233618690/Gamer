@@ -261,7 +261,37 @@ function playPrev() {
 // 初始化第一首歌
 audio.src = playlist[currentTrack]
 
+document.getElementById('testBtn').addEventListener('click', async () => {
+  try {
+    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/02/22/audio_d1718ab41b.mp3');
+    await audio.play();
+    alert('测试音频播放成功！');
+  } catch (error) {
+    alert(`播放失败：${error.message}`);
+  }
+});
+
+// 检测触摸设备
+const isTouchDevice = 'ontouchstart' in window;
+
+// 添加触觉反馈
+document.getElementById('playBtn').addEventListener('touchstart', () => {
+  if (navigator.vibrate) navigator.vibrate(50);
+});
+
+// 处理自动播放限制
+if (isTouchDevice) {
+  document.body.addEventListener('touchstart', () => {
+    const audio = document.getElementById('bgMusic');
+    audio.load(); // 预加载但不播放
+  }, { once: true });
+}
         
+</script>
+<button id="testBtn" style="position:fixed; top:10px; right:10px; z-index:9999">
+  测试音频
+</button>        
+
 
         
     </script>

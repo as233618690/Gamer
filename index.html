@@ -82,23 +82,7 @@ body {
   <div id="weatherInfo">加载天气中...</div>
 </div>
 
-<script>
-// 需要申请免费API key：https://openweathermap.org/api
-const API_KEY = 'f44e02c1a72919c4554dd7447f443a6c' 
 
-navigator.geolocation.getCurrentPosition(position => {
-  const {latitude, longitude} = position.coords
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=zh_cn`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('weatherInfo').innerHTML = `
-        🌤 ${data.weather[0].description}<br>
-        🌡 ${data.main.temp}℃<br>
-        💧 ${data.main.humidity}%
-      `
-    })
-})
-</style>
     
     <!-- 新增情话按钮 -->
     <button id="loveBtn" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background: #ff4081; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -154,7 +138,24 @@ navigator.geolocation.getCurrentPosition(position => {
             const randomIndex = Math.floor(Math.random() * loveMessages.length);
             alert(loveMessages[randomIndex]);
         });
+
         
+// 需要申请免费API key：https://openweathermap.org/api
+const API_KEY = 'f44e02c1a72919c4554dd7447f443a6c' 
+
+navigator.geolocation.getCurrentPosition(position => {
+  const {latitude, longitude} = position.coords
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=zh_cn`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('weatherInfo').innerHTML = `
+        🌤 ${data.weather[0].description}<br>
+        🌡 ${data.main.temp}℃<br>
+        💧 ${data.main.humidity}%
+      `
+    })
+})
+
     </script>
 </body>
 </html>

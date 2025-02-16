@@ -16,7 +16,29 @@
             background-size: cover;
             cursor: url('images/heart.ico'), auto;
         }
-        
+
+:root {
+  --primary-color: #ff4081;
+  --secondary-color: #89f7fe;
+}
+
+body {
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+  
+.weather-card {
+    flex-direction: column;
+  }
+}
 
         .text {
             position: absolute;
@@ -30,8 +52,36 @@
             height: 600px;
         }
 
-        
+        /* 统一卡片样式 */
+.dashboard {
+  display: grid;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
+.weather-card {
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.love-counter {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}        
  
 /* 设置 #weatherInfo 的样式 */
 #weatherInfo {
@@ -119,7 +169,9 @@ body {
 <div class="weather">
   <div id="weatherInfo">加载天气中...</div>
 </div>
-    
+
+   
+        
 <!-- 音乐播放器 -->   
 <div class="music-player">
   <h3>💖 钢琴曲</h3>
